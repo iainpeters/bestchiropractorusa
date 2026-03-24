@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://bestchiropractorusa.com/sitemap-index.xml

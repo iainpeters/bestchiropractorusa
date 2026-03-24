@@ -1,0 +1,176 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import StarRating from '../../components/StarRating.astro';
+import chiropractors from '../../data/chiropractors.json';
+
+export function getStaticPaths() {
+  return chiropractors.map(c => ({ params: { slug: c.slug }, props: { chiro: c } }));
+}
+
+const { chiro } = Astro.props;
+
+const title = `${chiro.doctorName}, ${chiro.credentials} - ${chiro.practiceName}, ${chiro.city}, ${chiro.state} | BestChiropractorUSA`;
+const description = `${chiro.doctorName} at ${chiro.practiceName} in ${chiro.city}, ${chiro.state}. Specializing in ${chiro.specialties.join(', ')}. View ratings, hours, and contact info.`;
+
+const chiropractorSchema = {
+  "@context": "https://schema.org",
+  "@type": ["Chiropractor", "LocalBusiness", "MedicalBusiness"],
+  "name": chiro.practiceName,
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": chiro.address.split(',')[0],
+    "addressLocality": chiro.city,
+    "addressRegion": chiro.state,
+    "addressCountry": "US"
+  },
+  ...(chiro.phone && { "telephone": chiro.phone }),
+  ...(chiro.website && { "url": chiro.website }),
+  "image": "https://bestchiropractorusa.com/og-image.png",
+  ...(chiro.hours && { "openingHours": [chiro.hours] }),
+  "medicalSpecialty": chiro.specialties,
+  "availableService": chiro.services.map(s => ({ "@type": "MedicalProcedure", "name": s })),
+  "isAcceptingNewPatients": true,
+  "priceRange": "$$",
+  ...(chiro.rating && {
+    "aggregateRating": {
+      "@type": "AggregateRating",
+      "ratingValue": String(chiro.rating),
+      "reviewCount": String(chiro.reviewCount),
+      "bestRating": "5",
+      "worstRating": "1"
+    }
+  })
+};
+
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": `What services does ${chiro.practiceName} in ${chiro.city}, ${chiro.state} offer?`,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": `${chiro.practiceName} offers ${chiro.services.join(', ')}.${chiro.phone ? ` Call ${chiro.phone} to learn more or book an appointment.` : ''}`
+      }
+    },
+    {
+      "@type": "Question",
+      "name": `Where is ${chiro.doctorName} located?`,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": `${chiro.doctorName} practices at ${chiro.practiceName}, located at ${chiro.address}.`
+      }
+    },
+    ...(chiro.hours ? [{
+      "@type": "Question",
+      "name": `What are the office hours for ${chiro.practiceName}?`,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": `Office hours for ${chiro.practiceName} are: ${chiro.hours}.${chiro.phone ? ` Call ${chiro.phone} to confirm.` : ''}`
+      }
+    }] : []),
+    {
+      "@type": "Question",
+      "name": `What specialties does ${chiro.doctorName} have?`,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": `${chiro.doctorName} specializes in ${chiro.specialties.join(', ')}.${chiro.website ? ` Visit ${chiro.website} for more info.` : ''}`
+      }
+    }
+  ]
+};
+
+const breadcrumbSchema = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://bestchiropractorusa.com/" },
+    { "@type": "ListItem", "position": 2, "name": "Chiropractors", "item": "https://bestchiropractorusa.com/" },
+    { "@type": "ListItem", "position": 3, "name": chiro.doctorName }
+  ]
+};
+
+const bookSlug = chiro.slug.replace(/-[a-z]+-[a-z]{2}$/, '').replace(/^dr-/, 'dr-');
+---
+<BaseLayout title={title} description={description} jsonLd={[chiropractorSchema, faqSchema, breadcrumbSchema]}>
+  <div class="max-w-6xl mx-auto px-4 py-10">
+    <nav class="text-xs text-gray-500 mb-8">
+      <a class="hover:text-gray-900 transition-colors" href="/">Home</a>
+      <span class="mx-2">/</span>
+      <span class="text-gray-900">{chiro.doctorName}</span>
+    </nav>
+
+    <article>
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+        <div class="lg:col-span-8 space-y-8">
+          <div>
+            <h1 class="text-3xl md:text-4xl font-bold text-gray-900 tracking-tight">{chiro.doctorName}, {chiro.credentials}</h1>
+            <p class="text-base text-gray-600 mt-1">{chiro.practiceName}</p>
+            <p class="text-sm text-gray-500 mt-1 flex items-center gap-1">
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"/><circle cx="12" cy="10" r="3"/></svg>
+              {chiro.city}, {chiro.state}
+            </p>
+            <div class="mt-2">
+              <StarRating rating={chiro.rating} reviewCount={chiro.reviewCount} />
+            </div>
+          </div>
+
+          <div class="flex flex-wrap gap-2">
+            {chiro.specialties.map(s => (
+              <span class="text-sm bg-blue-50 text-blue-700 px-3 py-1 rounded-full">{s}</span>
+            ))}
+          </div>
+
+          {chiro.article && (
+            <section class="prose max-w-none">
+              <h2 class="text-xl font-semibold text-gray-900">{chiro.articleTitle}</h2>
+              {chiro.article.split('\n\n').map(p => <p class="text-gray-700 leading-relaxed">{p}</p>)}
+            </section>
+          )}
+        </div>
+
+        <aside class="lg:col-span-4">
+          <div class="bg-white rounded-lg border border-gray-200 p-6 space-y-4 sticky top-20">
+            <h3 class="font-semibold text-gray-900">Contact Information</h3>
+            {chiro.address && (
+              <div>
+                <p class="text-sm text-gray-500">Address</p>
+                <p class="text-sm text-gray-900">{chiro.address}</p>
+              </div>
+            )}
+            {chiro.phone && (
+              <div>
+                <p class="text-sm text-gray-500">Phone</p>
+                <a href={`tel:${chiro.phone}`} class="text-sm text-blue-600 hover:underline">{chiro.phone}</a>
+              </div>
+            )}
+            {chiro.hours && (
+              <div>
+                <p class="text-sm text-gray-500">Hours</p>
+                <p class="text-sm text-gray-900">{chiro.hours}</p>
+              </div>
+            )}
+            {chiro.website && (
+              <div>
+                <p class="text-sm text-gray-500">Website</p>
+                <a href={chiro.website} target="_blank" rel="noopener" class="text-sm text-blue-600 hover:underline break-all">{chiro.website}</a>
+              </div>
+            )}
+            <div>
+              <p class="text-sm text-gray-500">Services</p>
+              <ul class="text-sm text-gray-900 space-y-1 mt-1">
+                {chiro.services.map(s => <li>• {s}</li>)}
+              </ul>
+            </div>
+            {chiro.ghlFormId && (
+              <a href={`/book/${chiro.slug}`} class="block w-full text-center bg-blue-600 text-white py-2.5 px-4 rounded-lg font-medium hover:bg-blue-700 transition-colors">
+                Book Appointment
+              </a>
+            )}
+          </div>
+        </aside>
+      </div>
+    </article>
+  </div>
+</BaseLayout>

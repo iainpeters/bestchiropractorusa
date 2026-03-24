@@ -1,0 +1,55 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import posts from '../../data/blog.json';
+
+export function getStaticPaths() {
+  return posts.map(p => ({ params: { slug: p.slug }, props: { post: p } }));
+}
+
+const { post } = Astro.props;
+const title = `${post.title} | BestChiropractorUSA`;
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": post.title,
+  "description": post.description,
+  "datePublished": post.publishedDate,
+  "author": { "@type": "Organization", "name": "BestChiropractorUSA" },
+  "publisher": { "@type": "Organization", "name": "BestChiropractorUSA" }
+};
+---
+<BaseLayout title={title} description={post.description} jsonLd={jsonLd}>
+  <div class="max-w-3xl mx-auto px-4 py-10">
+    <nav class="text-xs text-gray-500 mb-8">
+      <a class="hover:text-gray-900" href="/">Home</a>
+      <span class="mx-2">/</span>
+      <span class="text-gray-900">Blog</span>
+    </nav>
+    <article>
+      <h1 class="text-3xl font-bold text-gray-900 mb-2">{post.title}</h1>
+      <p class="text-sm text-gray-500 mb-8">{post.publishedDate}</p>
+      <div class="prose max-w-none text-gray-700">
+        {post.content.split('\n\n').map((block: string) => {
+          if (block.startsWith('## ')) {
+            return <h2 class="text-xl font-semibold text-gray-900 mt-8 mb-3">{block.replace('## ', '')}</h2>;
+          } else if (block.startsWith('- ')) {
+            return <ul class="list-disc pl-6 space-y-1">{block.split('\n').map((li: string) => <li set:html={li.replace(/^- /, '').replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>').replace(/\[(.+?)\]\((.+?)\)/g, '<a href="$2" class="text-blue-600 hover:underline">$1</a>')} />)}</ul>;
+          } else if (block.match(/^\d\./)) {
+            return <ol class="list-decimal pl-6 space-y-1">{block.split('\n').map((li: string) => <li set:html={li.replace(/^\d+\.\s*/, '').replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>').replace(/\[(.+?)\]\((.+?)\)/g, '<a href="$2" class="text-blue-600 hover:underline">$1</a>')} />)}</ol>;
+          } else {
+            return <p class="mb-4 leading-relaxed" set:html={block.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>').replace(/\[(.+?)\]\((.+?)\)/g, '<a href="$2" class="text-blue-600 hover:underline">$1</a>')} />;
+          }
+        })}
+      </div>
+    </article>
+    <div class="mt-12 pt-8 border-t border-gray-200">
+      <h3 class="font-semibold text-gray-900 mb-4">More Articles</h3>
+      <ul class="space-y-2">
+        {posts.filter((p: any) => p.slug !== post.slug).map((p: any) => (
+          <li><a href={`/blog/${p.slug}`} class="text-blue-600 hover:underline">{p.title}</a></li>
+        ))}
+      </ul>
+    </div>
+  </div>
+</BaseLayout>

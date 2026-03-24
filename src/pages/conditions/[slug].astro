@@ -1,0 +1,57 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ChiroCard from '../../components/ChiroCard.astro';
+import conditions from '../../data/conditions.json';
+import chiropractors from '../../data/chiropractors.json';
+
+export function getStaticPaths() {
+  return conditions.map(c => ({ params: { slug: c.slug }, props: { condition: c } }));
+}
+
+const { condition } = Astro.props;
+
+// Match chiropractors to condition by keywords
+const matchingChiros = chiropractors.filter(c => {
+  const allText = [...c.specialties, ...c.services].join(' ').toLowerCase();
+  return condition.keywords.some((kw: string) => allText.includes(kw.toLowerCase()));
+});
+
+const title = `${condition.title} | BestChiropractorUSA`;
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "MedicalCondition",
+  "name": condition.name,
+  "description": condition.description,
+  "possibleTreatment": {
+    "@type": "MedicalTherapy",
+    "name": "Chiropractic Care",
+    "description": `Chiropractic treatment for ${condition.name.toLowerCase()}`
+  }
+};
+---
+<BaseLayout title={title} description={condition.description} jsonLd={jsonLd}>
+  <div class="max-w-6xl mx-auto px-4 py-10">
+    <nav class="text-xs text-gray-500 mb-8">
+      <a class="hover:text-gray-900" href="/">Home</a>
+      <span class="mx-2">/</span>
+      <span class="text-gray-900">{condition.name}</span>
+    </nav>
+    <h1 class="text-3xl font-bold text-gray-900 mb-4">{condition.title}</h1>
+    <div class="prose max-w-none mb-12 text-gray-700">
+      {condition.content.split('\n\n').map((p: string) => <p class="mb-4 leading-relaxed">{p}</p>)}
+    </div>
+    {matchingChiros.length > 0 && (
+      <>
+        <h2 class="text-xl font-semibold text-gray-900 mb-6">Chiropractors Specializing in {condition.name}</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {matchingChiros.map((c: any) => (
+            <ChiroCard slug={c.slug} doctorName={c.doctorName} credentials={c.credentials}
+              practiceName={c.practiceName} city={c.city} state={c.state}
+              specialties={c.specialties} rating={c.rating} reviewCount={c.reviewCount} />
+          ))}
+        </div>
+      </>
+    )}
+  </div>
+</BaseLayout>

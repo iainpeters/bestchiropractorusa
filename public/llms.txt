@@ -1,0 +1,90 @@
+# BestChiropractorUSA
+
+> A directory of verified chiropractors across the United States with practice details, specialties, hours, and contact information.
+
+## About
+BestChiropractorUSA is a comprehensive chiropractor directory featuring detailed profiles for licensed chiropractors. Each listing includes the doctor's credentials, practice address, phone number, office hours, specialties, services offered, and a professional bio.
+
+## Directory Listings
+Each chiropractor has a dedicated profile page at /chiropractor/{slug} with structured data (JSON-LD) for search engines and AI systems.
+
+## Chiropractor Profiles
+- [Dr. Brendan Allen - Newington, CT](/chiropractor/dr-brendan-allen-newington-ct)
+- [Dr. Asia Barclay - Fayetteville, GA](/chiropractor/dr-asia-barclay-fayetteville-ga)
+- [Dr. Charly Swanberg - Temecula, CA](/chiropractor/dr-charly-swanberg-temecula-ca)
+- [Dr. Gregory Tonnesen - St. Johns, FL](/chiropractor/dr-greg-tonnesen-st-johns-fl)
+- [Dr. Yahdi D. Cotto-Jorge - Aurora, CO](/chiropractor/dr-yahdi-cotto-aurora-co)
+- [Dr. Marielis Montalvo Perez - Davie, FL](/chiropractor/dr-marielis-montalvo-perez-davie-fl)
+- [Dr. Zachary Anthony - McDonough, GA](/chiropractor/dr-zach-anthony-mcdonough-ga)
+- [Dr. Andre White - Calhoun, GA](/chiropractor/dr-andre-white-calhoun-ga)
+- [Dr. Joe Richardson - Troy, MI](/chiropractor/dr-joe-richardson-troy-mi)
+- [Dr. Mona Panchal - La Habra, CA](/chiropractor/dr-mona-panchal-la-habra-ca)
+- [Dr. Todd Marquis - Columbus, OH](/chiropractor/dr-todd-marquis-columbus-oh)
+- [Dr. Teresa Grace Fourre - Canton, GA](/chiropractor/dr-terry-fourre-canton-ga)
+- [Dr. Christopher Stewart - Bowling Green, KY](/chiropractor/dr-chris-stewart-bowling-green-ky)
+- [Dr. Bryen A. Bell - Beaverton, OR](/chiropractor/dr-bryen-bell-beaverton-or)
+- [Dr. Jessica Tew - Cumming, GA](/chiropractor/dr-jessica-tew-cumming-ga)
+- [Dr. Nicolas Kellerman - Austin, TX](/chiropractor/dr-nicolas-kellerman-austin-tx)
+- [Dr. Bryna Waters Sutter - Nashville, TN](/chiropractor/dr-bryna-waters-nashville-tn)
+- [Dr. Angie Recendez - Arlington Heights, IL](/chiropractor/dr-angie-recendez-arlington-heights-il)
+- [Dr. James Williams - Lake Charles, LA](/chiropractor/dr-james-williams-lake-charles-la)
+- [Dr. Tara Breske - Parker, CO](/chiropractor/dr-tara-breske-parker-co)
+- [Dr. Sara Nelson - Knoxville, TN](/chiropractor/dr-sara-nelson-knoxville-tn)
+- [Dr. Angel Santos - Grand Rapids, MI](/chiropractor/dr-angel-santos-grand-rapids-mi)
+- [Dr. Kris Barnhill - Gainesville, FL](/chiropractor/dr-kris-barnhill-gainesville-fl)
+- [Dr. Jerren Stines - Fort Mill, SC](/chiropractor/dr-jerren-stines-fort-mill-sc)
+- [Dr. Adam Tedder - Suwanee, GA](/chiropractor/dr-adam-tedder-suwanee-ga)
+- [Dr. Ted Valley - Des Peres, MO](/chiropractor/dr-ted-valley-des-peres-mo)
+- [Dr. Ghazal Eslamy - San Clemente, CA](/chiropractor/dr-ghazal-eslamy-san-clemente-ca)
+- [Dr. William Bevis - Tallahassee, FL](/chiropractor/dr-will-bevis-tallahassee-fl)
+- [Dr. Jaclyn Becker - Plano, TX](/chiropractor/dr-jaclyn-becker-plano-tx)
+- [Dr. Darby Thomas - Littleton, CO](/chiropractor/dr-darby-thomas-littleton-co)
+- [Dr. Eileen Whelan & Dr. Terry Whelan - Orange, VA](/chiropractor/orange-chiropractic-orange-va)
+- [Dr. Kathryn Russell - Niceville, FL](/chiropractor/dr-kathryn-russell-niceville-fl)
+- [Dr. Dana Huebner - Shawnee, KS](/chiropractor/dr-dana-huebner-shawnee-ks)
+- [Dr. Ron Martin - Odessa, FL](/chiropractor/dr-ron-martin-odessa-fl)
+
+## About
+- [About BestChiropractorUSA — Our Mission & Editorial Standards](/about)
+
+## Condition Pages
+Each condition page lists chiropractors who specialize in treating that condition, with structured data (JSON-LD) using MedicalCondition schema.
+
+- [Back Pain](/conditions/back-pain)
+- [Neck Pain](/conditions/neck-pain)
+- [Headaches & Migraines](/conditions/headaches-migraines)
+- [Sciatica](/conditions/sciatica)
+- [Sports Injuries](/conditions/sports-injuries)
+- [Prenatal Chiropractic](/conditions/prenatal-chiropractic)
+- [Pediatric Chiropractic](/conditions/pediatric-chiropractic)
+- [Auto Accident Injuries](/conditions/auto-accident-injuries)
+- [Family Wellness](/conditions/family-wellness)
+- [Holistic Pain Relief](/conditions/holistic-pain-relief)
+
+## State Pages
+Each state page lists all chiropractors located in that state, with structured data (JSON-LD) using ItemList schema.
+
+- [Connecticut](/states/connecticut)
+- [Georgia](/states/georgia)
+- [California](/states/california)
+- [Florida](/states/florida)
+- [Colorado](/states/colorado)
+- [Michigan](/states/michigan)
+- [Ohio](/states/ohio)
+- [Kentucky](/states/kentucky)
+- [Oregon](/states/oregon)
+- [Texas](/states/texas)
+- [Tennessee](/states/tennessee)
+- [Illinois](/states/illinois)
+- [Louisiana](/states/louisiana)
+- [South Carolina](/states/south-carolina)
+- [Missouri](/states/missouri)
+- [Virginia](/states/virginia)
+- [Kansas](/states/kansas)
+
+## Blog Articles
+- [What Does a Chiropractor Do? A Complete Guide](/blog/what-does-a-chiropractor-do)
+- [Chiropractor vs Physical Therapist: Which Do You Need?](/blog/chiropractor-vs-physical-therapist)
+- [7 Science-Backed Benefits of Chiropractic Care](/blog/benefits-of-chiropractic-care)
+- [How to Choose the Right Chiropractor: 5 Things to Look For](/blog/how-to-choose-a-chiropractor)
+- [What to Expect at Your First Chiropractic Visit](/blog/what-to-expect-first-chiropractic-visit)

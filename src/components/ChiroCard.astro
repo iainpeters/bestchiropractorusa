@@ -1,0 +1,36 @@
+---
+import StarRating from './StarRating.astro';
+
+interface Props {
+  slug: string;
+  doctorName: string;
+  credentials: string;
+  practiceName: string;
+  city: string;
+  state: string;
+  specialties: string[];
+  rating: number | null;
+  reviewCount: number | null;
+}
+
+const { slug, doctorName, credentials, practiceName, city, state, specialties, rating, reviewCount } = Astro.props;
+---
+<div class="bg-white rounded-lg border border-gray-200 p-6 hover:shadow-md transition-shadow">
+  <h3 class="text-lg font-semibold text-gray-900">{doctorName}, {credentials}</h3>
+  <p class="text-sm text-gray-600 mt-1">{practiceName}</p>
+  <p class="text-sm text-gray-500 mt-1 flex items-center gap-1">
+    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"/><circle cx="12" cy="10" r="3"/></svg>
+    {city}, {state}
+  </p>
+  <div class="mt-2">
+    <StarRating rating={rating} reviewCount={reviewCount} />
+  </div>
+  <div class="flex flex-wrap gap-1.5 mt-3">
+    {specialties.map(s => (
+      <span class="text-xs bg-blue-50 text-blue-700 px-2 py-0.5 rounded-full">{s}</span>
+    ))}
+  </div>
+  <a href={`/chiropractor/${slug}`} class="inline-block mt-4 text-sm font-medium text-blue-600 hover:text-blue-800 transition-colors">
+    View Profile →
+  </a>
+</div>

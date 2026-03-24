@@ -1,0 +1,60 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ChiroCard from '../components/ChiroCard.astro';
+import chiropractors from '../data/chiropractors.json';
+
+const title = "Find the Best Chiropractor Near You | BestChiropractorUSA";
+const description = "Browse verified chiropractors across the United States. Compare ratings, specialties, and book your appointment today.";
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "name": "BestChiropractorUSA",
+  "url": "https://bestchiropractorusa.com",
+  "description": description,
+  "potentialAction": {
+    "@type": "SearchAction",
+    "target": "https://bestchiropractorusa.com/?q={search_term_string}",
+    "query-input": "required name=search_term_string"
+  }
+};
+---
+<BaseLayout title={title} description={description} jsonLd={jsonLd}>
+  <div class="max-w-6xl mx-auto px-4 py-10">
+    <div class="text-center mb-10">
+      <h1 class="text-3xl md:text-4xl font-bold text-gray-900 tracking-tight">Find the Best Chiropractor Near You</h1>
+      <p class="text-gray-600 mt-3 max-w-2xl mx-auto">{description}</p>
+    </div>
+
+    <section class="prose max-w-none mb-12 text-gray-700">
+      <p>BestChiropractorUSA is the trusted directory for finding licensed, verified chiropractors across the United States. Our directory features detailed profiles for over 30 chiropractors in 15+ states, each with verified credentials, office hours, patient ratings, specialties, and contact information. Whether you need relief from back pain, sciatica, migraines, or want ongoing wellness care, our listings help you compare top-rated chiropractors and book appointments with confidence.</p>
+
+      <h2 class="text-xl font-semibold text-gray-900 mt-8 mb-3">Why Choose a Chiropractor?</h2>
+      <p>Chiropractors treat back pain, neck pain, headaches, sciatica, sports injuries, and joint dysfunction using hands-on spinal adjustments and manual therapy. Unlike medication that masks symptoms, chiropractic care addresses the root cause of pain by restoring proper spinal alignment and nervous system function. Millions of Americans choose chiropractic as a safe, drug-free alternative for both acute injuries and chronic conditions.</p>
+
+      <h2 class="text-xl font-semibold text-gray-900 mt-8 mb-3">How Our Directory Works</h2>
+      <p>Every chiropractor in our directory has been reviewed by our editorial team. We verify active state licensure, confirm practice addresses and phone numbers, and evaluate patient reviews from Google and other trusted platforms. We do not accept paid placements — listings are earned through quality of care, patient satisfaction, and professional reputation.</p>
+
+      <h2 class="text-xl font-semibold text-gray-900 mt-8 mb-3">Chiropractic Care by Specialty</h2>
+      <p>Chiropractic care extends well beyond basic back adjustments. <a href="/conditions/back-pain" class="text-blue-600 hover:underline">Corrective care</a> chiropractors focus on long-term spinal correction. <a href="/conditions/pediatric-chiropractic" class="text-blue-600 hover:underline">Pediatric chiropractors</a> use gentle techniques safe for children. <a href="/conditions/prenatal-chiropractic" class="text-blue-600 hover:underline">Prenatal specialists</a> help expectant mothers. <a href="/conditions/sports-injuries" class="text-blue-600 hover:underline">Sports chiropractors</a> optimize athletic performance and recovery.</p>
+    </section>
+
+    <p class="text-sm text-gray-500 mb-6">{chiropractors.length} Chiropractors found</p>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      {chiropractors.map(c => (
+        <ChiroCard
+          slug={c.slug}
+          doctorName={c.doctorName}
+          credentials={c.credentials}
+          practiceName={c.practiceName}
+          city={c.city}
+          state={c.state}
+          specialties={c.specialties}
+          rating={c.rating}
+          reviewCount={c.reviewCount}
+        />
+      ))}
+    </div>
+  </div>
+</BaseLayout>

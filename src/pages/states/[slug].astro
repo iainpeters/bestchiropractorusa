@@ -1,0 +1,51 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ChiroCard from '../../components/ChiroCard.astro';
+import chiropractors from '../../data/chiropractors.json';
+
+const stateMap: Record<string, string> = {};
+chiropractors.forEach(c => { stateMap[c.fullState.toLowerCase().replace(/\s+/g, '-')] = c.fullState; });
+
+export function getStaticPaths() {
+  const states = new Map<string, any[]>();
+  for (const c of chiropractors) {
+    const slug = c.fullState.toLowerCase().replace(/\s+/g, '-');
+    if (!states.has(slug)) states.set(slug, []);
+    states.get(slug)!.push(c);
+  }
+  return Array.from(states.entries()).map(([slug, chiros]) => ({
+    params: { slug },
+    props: { stateName: chiros[0].fullState, chiros }
+  }));
+}
+
+const { stateName, chiros } = Astro.props;
+const title = `Best Chiropractors in ${stateName} | BestChiropractorUSA`;
+const description = `Find top-rated chiropractors in ${stateName}. Browse ${chiros.length} verified chiropractor profiles with ratings, specialties, and contact info.`;
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "ItemList",
+  "name": `Chiropractors in ${stateName}`,
+  "numberOfItems": chiros.length,
+  "itemListElement": chiros.map((c: any, i: number) => ({
+    "@type": "ListItem",
+    "position": i + 1,
+    "name": `${c.doctorName} - ${c.practiceName}`,
+    "url": `https://bestchiropractorusa.com/chiropractor/${c.slug}`
+  }))
+};
+---
+<BaseLayout title={title} description={description} jsonLd={jsonLd}>
+  <div class="max-w-6xl mx-auto px-4 py-10">
+    <h1 class="text-3xl font-bold text-gray-900 mb-2">Best Chiropractors in {stateName}</h1>
+    <p class="text-gray-600 mb-8">{chiros.length} verified chiropractors in {stateName}</p>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      {chiros.map((c: any) => (
+        <ChiroCard slug={c.slug} doctorName={c.doctorName} credentials={c.credentials}
+          practiceName={c.practiceName} city={c.city} state={c.state}
+          specialties={c.specialties} rating={c.rating} reviewCount={c.reviewCount} />
+      ))}
+    </div>
+  </div>
+</BaseLayout>
