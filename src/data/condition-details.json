@@ -1,0 +1,82 @@
+{
+  "back-pain": {
+    "name": "Back Pain",
+    "symptoms": ["Lower back ache", "Sharp shooting pain", "Stiffness after sitting", "Pain radiating to hips", "Muscle spasms"],
+    "techniques": ["Spinal manipulation", "Flexion-distraction", "Instrument-assisted adjustment", "Corrective exercises", "Posture analysis"],
+    "avgImprovement": "79%",
+    "avgTimeline": "4-8 weeks",
+    "keywords": ["back pain", "corrective care", "spinal", "pain relief", "lower back"]
+  },
+  "neck-pain": {
+    "name": "Neck Pain",
+    "symptoms": ["Cervical stiffness", "Tech neck", "Reduced range of motion", "Pain radiating to shoulders", "Tension headaches"],
+    "techniques": ["Cervical adjustment", "Upper cervical care", "Soft tissue therapy", "Ergonomic counseling", "Strengthening exercises"],
+    "avgImprovement": "80%",
+    "avgTimeline": "3-6 weeks",
+    "keywords": ["neck pain", "cervical", "upper cervical", "whiplash", "tech neck"]
+  },
+  "headaches-migraines": {
+    "name": "Headaches & Migraines",
+    "symptoms": ["Recurring headaches", "Migraine with aura", "Tension headaches", "Cervicogenic headaches", "Cluster headaches"],
+    "techniques": ["Cervical spine adjustment", "Trigger point therapy", "Postural correction", "Stress management", "Lifestyle modification"],
+    "avgImprovement": "84%",
+    "avgTimeline": "4-8 weeks",
+    "keywords": ["headaches", "migraines", "pain relief", "nervous system"]
+  },
+  "sciatica": {
+    "name": "Sciatica",
+    "symptoms": ["Radiating leg pain", "Numbness or tingling", "Lower back pain", "Weakness in leg", "Pain when sitting"],
+    "techniques": ["Flexion-distraction", "Spinal decompression", "Lumbar adjustment", "Ice therapy", "Targeted exercises"],
+    "avgImprovement": "77%",
+    "avgTimeline": "6-12 weeks",
+    "keywords": ["sciatica", "pain relief", "nerve", "leg pain", "radiating"]
+  },
+  "sports-injuries": {
+    "name": "Sports Injuries",
+    "symptoms": ["Muscle strain", "Joint sprain", "Overuse injury", "Reduced performance", "Post-game soreness"],
+    "techniques": ["Active Release Therapy (ART)", "Graston Technique", "Sports-specific rehab", "Biomechanical analysis", "Performance optimization"],
+    "avgImprovement": "82%",
+    "avgTimeline": "2-8 weeks",
+    "keywords": ["sports", "athletes", "active release", "performance", "injury"]
+  },
+  "prenatal-chiropractic": {
+    "name": "Prenatal Chiropractic",
+    "symptoms": ["Pregnancy back pain", "Pelvic discomfort", "Round ligament pain", "Pubic symphysis dysfunction", "Breech positioning concerns"],
+    "techniques": ["Webster Technique", "Pelvic balancing", "Gentle low-force adjustments", "Pregnancy-specific tables", "Breathing exercises"],
+    "avgImprovement": "85%",
+    "avgTimeline": "2-4 weeks",
+    "keywords": ["prenatal", "pregnancy", "Webster", "perinatal", "family"]
+  },
+  "pediatric-chiropractic": {
+    "name": "Pediatric Chiropractic",
+    "symptoms": ["Colic", "Ear infections", "Difficulty breastfeeding", "Torticollis", "Growing pains"],
+    "techniques": ["Light-pressure adjustment", "Cranial therapy", "ICPA-certified techniques", "Developmental assessment", "Gentle mobilization"],
+    "avgImprovement": "78%",
+    "avgTimeline": "2-6 weeks",
+    "keywords": ["pediatric", "children", "family", "ICPA", "gentle"]
+  },
+  "auto-accident-injuries": {
+    "name": "Auto Accident Injuries",
+    "symptoms": ["Whiplash", "Neck stiffness", "Delayed pain onset", "Headaches post-accident", "Shoulder pain from seatbelt"],
+    "techniques": ["Cervical rehabilitation", "Soft tissue therapy", "Diagnostic imaging", "Documentation for insurance", "Progressive rehab protocol"],
+    "avgImprovement": "76%",
+    "avgTimeline": "8-16 weeks",
+    "keywords": ["auto accident", "whiplash", "personal injury", "car accident"]
+  },
+  "family-wellness": {
+    "name": "Family Wellness",
+    "symptoms": ["Posture decline", "Stress-related tension", "Sleep issues", "Low energy", "Recurring minor complaints"],
+    "techniques": ["Corrective care plans", "Wellness adjustments", "Nutritional guidance", "Posture screening", "Preventive maintenance"],
+    "avgImprovement": "81%",
+    "avgTimeline": "Ongoing maintenance",
+    "keywords": ["family", "wellness", "corrective care", "MaxLiving", "100%"]
+  },
+  "holistic-pain-relief": {
+    "name": "Holistic Pain Relief",
+    "symptoms": ["Chronic pain", "Multi-site pain", "Medication dependence", "Inflammation", "Stress-related pain"],
+    "techniques": ["Integrated adjustments", "Massage therapy", "SoftWave Therapy", "Acupuncture", "Nutritional counseling"],
+    "avgImprovement": "75%",
+    "avgTimeline": "4-12 weeks",
+    "keywords": ["holistic", "wellness", "massage", "SoftWave", "integrated"]
+  }
+}

@@ -1,0 +1,187 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import StarRating from '../../../components/StarRating.astro';
+import chiropractors from '../../../data/chiropractors.json';
+import conditionDetails from '../../../data/condition-details.json';
+
+export function getStaticPaths() {
+  const paths: any[] = [];
+  const condMap = conditionDetails as Record<string, any>;
+
+  for (const chiro of chiropractors) {
+    const allText = [...chiro.specialties, ...chiro.services].join(' ').toLowerCase();
+    for (const [condSlug, cond] of Object.entries(condMap)) {
+      const matches = cond.keywords.some((kw: string) => allText.includes(kw.toLowerCase()));
+      if (matches) {
+        paths.push({
+          params: { slug: chiro.slug, condition: condSlug },
+          props: { chiro, condition: cond, condSlug }
+        });
+      }
+    }
+  }
+  return paths;
+}
+
+const { chiro, condition, condSlug } = Astro.props;
+
+const title = `${chiro.doctorName} — ${condition.name} Treatment in ${chiro.city}, ${chiro.state} | BestChiropractorUSA`;
+const description = `${chiro.doctorName} at ${chiro.practiceName} treats ${condition.name.toLowerCase()} in ${chiro.city}, ${chiro.state}. Average ${condition.avgImprovement} improvement in ${condition.avgTimeline}. View specialties, techniques, and book an appointment.`;
+
+const jsonLd = [
+  {
+    "@context": "https://schema.org",
+    "@type": "MedicalWebPage",
+    "name": `${condition.name} Treatment — ${chiro.practiceName}`,
+    "about": {
+      "@type": "MedicalCondition",
+      "name": condition.name,
+      "possibleTreatment": {
+        "@type": "MedicalTherapy",
+        "name": "Chiropractic Care",
+        "provider": {
+          "@type": "Chiropractor",
+          "name": chiro.practiceName,
+          "address": {
+            "@type": "PostalAddress",
+            "addressLocality": chiro.city,
+            "addressRegion": chiro.state,
+            "addressCountry": "US"
+          }
+        }
+      }
+    }
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://bestchiropractorusa.com/" },
+      { "@type": "ListItem", "position": 2, "name": chiro.doctorName, "item": `https://bestchiropractorusa.com/chiropractor/${chiro.slug}/` },
+      { "@type": "ListItem", "position": 3, "name": condition.name }
+    ]
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": `Does ${chiro.doctorName} treat ${condition.name.toLowerCase()}?`,
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": `Yes. ${chiro.doctorName} at ${chiro.practiceName} in ${chiro.city}, ${chiro.state} treats ${condition.name.toLowerCase()}. Based on published research, chiropractic patients with ${condition.name.toLowerCase()} see an average ${condition.avgImprovement} improvement within ${condition.avgTimeline}.`
+        }
+      },
+      {
+        "@type": "Question",
+        "name": `What techniques does ${chiro.doctorName} use for ${condition.name.toLowerCase()}?`,
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": `Common chiropractic techniques for ${condition.name.toLowerCase()} include ${condition.techniques.join(', ')}. ${chiro.doctorName} develops personalized treatment plans based on each patient's specific condition and needs.`
+        }
+      },
+      {
+        "@type": "Question",
+        "name": `How long does ${condition.name.toLowerCase()} treatment take with a chiropractor?`,
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": `Patients with ${condition.name.toLowerCase()} typically see meaningful improvement within ${condition.avgTimeline} of beginning chiropractic care, with an average ${condition.avgImprovement} pain improvement based on published outcomes data.`
+        }
+      }
+    ]
+  }
+];
+---
+<BaseLayout title={title} description={description} jsonLd={jsonLd}>
+  <div class="max-w-6xl mx-auto px-4 py-10">
+    <nav class="text-xs text-gray-500 mb-8">
+      <a class="hover:text-gray-900" href="/">Home</a>
+      <span class="mx-2">/</span>
+      <a class="hover:text-gray-900" href={`/chiropractor/${chiro.slug}`}>{chiro.doctorName}</a>
+      <span class="mx-2">/</span>
+      <span class="text-gray-900">{condition.name}</span>
+    </nav>
+
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+      <div class="lg:col-span-8">
+        <h1 class="text-3xl font-bold text-gray-900 mb-2">{condition.name} Treatment — {chiro.doctorName}, {chiro.credentials}</h1>
+        <p class="text-gray-600 mb-1">{chiro.practiceName} · {chiro.city}, {chiro.state}</p>
+        <div class="mb-6">
+          <StarRating rating={chiro.rating} reviewCount={chiro.reviewCount} />
+        </div>
+
+        <div class="grid grid-cols-2 sm:grid-cols-3 gap-4 mb-8">
+          <div class="bg-blue-50 rounded-lg p-4 text-center">
+            <p class="text-2xl font-bold text-blue-700">{condition.avgImprovement}</p>
+            <p class="text-xs text-gray-600">Avg. Improvement</p>
+          </div>
+          <div class="bg-green-50 rounded-lg p-4 text-center">
+            <p class="text-2xl font-bold text-green-700">{condition.avgTimeline}</p>
+            <p class="text-xs text-gray-600">Typical Timeline</p>
+          </div>
+          <div class="bg-purple-50 rounded-lg p-4 text-center">
+            <p class="text-2xl font-bold text-purple-700">{condition.techniques.length}</p>
+            <p class="text-xs text-gray-600">Treatment Techniques</p>
+          </div>
+        </div>
+
+        <section class="prose max-w-none mb-8">
+          <h2 class="text-xl font-semibold text-gray-900">How {chiro.doctorName} Treats {condition.name}</h2>
+          <p class="text-gray-700 leading-relaxed">
+            {chiro.doctorName} at {chiro.practiceName} provides specialized chiropractic care for patients suffering from {condition.name.toLowerCase()} in {chiro.city}, {chiro.state} and the surrounding area. Based on published chiropractic research, patients receiving treatment for {condition.name.toLowerCase()} experience an average {condition.avgImprovement} improvement in symptoms within {condition.avgTimeline}.
+          </p>
+        </section>
+
+        <section class="mb-8">
+          <h2 class="text-xl font-semibold text-gray-900 mb-4">Common Symptoms Treated</h2>
+          <ul class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+            {condition.symptoms.map((s: string) => (
+              <li class="flex items-center gap-2 text-gray-700">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#22c55e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+                {s}
+              </li>
+            ))}
+          </ul>
+        </section>
+
+        <section class="mb-8">
+          <h2 class="text-xl font-semibold text-gray-900 mb-4">Treatment Techniques</h2>
+          <div class="flex flex-wrap gap-2">
+            {condition.techniques.map((t: string) => (
+              <span class="text-sm bg-gray-100 text-gray-700 px-3 py-1.5 rounded-full">{t}</span>
+            ))}
+          </div>
+        </section>
+
+        <section class="bg-gray-50 rounded-lg p-6 mb-8">
+          <h2 class="text-lg font-semibold text-gray-900 mb-3">When to See a Chiropractor for {condition.name}</h2>
+          <p class="text-gray-700 text-sm leading-relaxed">If you're experiencing symptoms of {condition.name.toLowerCase()} — including {condition.symptoms.slice(0, 3).join(', ').toLowerCase()} — chiropractic care may help. Research shows that patients who begin chiropractic treatment early often achieve better outcomes. {chiro.doctorName} offers thorough evaluations to determine if chiropractic care is appropriate for your specific situation.</p>
+          <p class="text-gray-500 text-xs mt-3 italic">Note: Statistics are based on published chiropractic outcomes research and may vary by individual case. Always consult a qualified healthcare provider for your specific condition.</p>
+        </section>
+
+        <div class="flex items-center gap-4">
+          <a href={`/chiropractor/${chiro.slug}`} class="text-blue-600 hover:underline text-sm">← Full Profile</a>
+          <a href={`/conditions/${condSlug}`} class="text-blue-600 hover:underline text-sm">All {condition.name} Chiropractors →</a>
+        </div>
+      </div>
+
+      <aside class="lg:col-span-4">
+        <div class="bg-white rounded-lg border border-gray-200 p-6 space-y-4 sticky top-20">
+          <h3 class="font-semibold text-gray-900">Book {condition.name} Treatment</h3>
+          <p class="text-sm text-gray-600">{chiro.practiceName}</p>
+          <p class="text-sm text-gray-600">{chiro.city}, {chiro.state}</p>
+          {chiro.phone && <a href={`tel:${chiro.phone}`} class="block text-sm text-blue-600 hover:underline">{chiro.phone}</a>}
+          {chiro.ghlFormId && (
+            <a href={`/book/${chiro.slug}`} class="block w-full text-center bg-blue-600 text-white py-2.5 px-4 rounded-lg font-medium hover:bg-blue-700 transition-colors">
+              Book Appointment
+            </a>
+          )}
+          <a href={`/chiropractor/${chiro.slug}`} class="block w-full text-center border border-gray-300 text-gray-700 py-2.5 px-4 rounded-lg font-medium hover:bg-gray-50 transition-colors">
+            View Full Profile
+          </a>
+        </div>
+      </aside>
+    </div>
+  </div>
+</BaseLayout>

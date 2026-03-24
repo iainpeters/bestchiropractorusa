@@ -1,0 +1,76 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import ChiroCard from '../../../components/ChiroCard.astro';
+import chiropractors from '../../../data/chiropractors.json';
+
+export function getStaticPaths() {
+  const cityMap = new Map<string, any[]>();
+  for (const c of chiropractors) {
+    const stateSlug = c.fullState.toLowerCase().replace(/\s+/g, '-');
+    const citySlug = c.city.toLowerCase().replace(/\s+/g, '-').replace(/\./g, '');
+    const key = `${stateSlug}/${citySlug}`;
+    if (!cityMap.has(key)) cityMap.set(key, []);
+    cityMap.get(key)!.push(c);
+  }
+  return Array.from(cityMap.entries()).map(([key, chiros]) => {
+    const [stateSlug, citySlug] = key.split('/');
+    return {
+      params: { state: stateSlug, city: citySlug },
+      props: { chiros, cityName: chiros[0].city, stateName: chiros[0].fullState, stateAbbr: chiros[0].state }
+    };
+  });
+}
+
+const { chiros, cityName, stateName, stateAbbr } = Astro.props;
+const title = `Best Chiropractors in ${cityName}, ${stateAbbr} | BestChiropractorUSA`;
+const description = `Find top-rated chiropractors in ${cityName}, ${stateName}. ${chiros.length} verified chiropractor${chiros.length > 1 ? 's' : ''} with ratings, specialties, and contact information.`;
+
+const jsonLd = [
+  {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    "name": `Chiropractors in ${cityName}, ${stateAbbr}`,
+    "numberOfItems": chiros.length,
+    "itemListElement": chiros.map((c: any, i: number) => ({
+      "@type": "ListItem",
+      "position": i + 1,
+      "name": `${c.doctorName} - ${c.practiceName}`,
+      "url": `https://bestchiropractorusa.com/chiropractor/${c.slug}`
+    }))
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://bestchiropractorusa.com/" },
+      { "@type": "ListItem", "position": 2, "name": stateName, "item": `https://bestchiropractorusa.com/states/${stateName.toLowerCase().replace(/\s+/g, '-')}/` },
+      { "@type": "ListItem", "position": 3, "name": cityName }
+    ]
+  }
+];
+---
+<BaseLayout title={title} description={description} jsonLd={jsonLd}>
+  <div class="max-w-6xl mx-auto px-4 py-10">
+    <nav class="text-xs text-gray-500 mb-8">
+      <a class="hover:text-gray-900" href="/">Home</a>
+      <span class="mx-2">/</span>
+      <a class="hover:text-gray-900" href={`/states/${stateName.toLowerCase().replace(/\s+/g, '-')}`}>{stateName}</a>
+      <span class="mx-2">/</span>
+      <span class="text-gray-900">{cityName}</span>
+    </nav>
+    <h1 class="text-3xl font-bold text-gray-900 mb-2">Best Chiropractors in {cityName}, {stateAbbr}</h1>
+    <p class="text-gray-600 mb-4">{chiros.length} verified chiropractor{chiros.length > 1 ? 's' : ''} in {cityName}, {stateName}</p>
+
+    <div class="prose max-w-none mb-10 text-gray-700">
+      <p>Looking for a chiropractor in {cityName}, {stateName}? Our directory features {chiros.length} verified chiropractor{chiros.length > 1 ? 's' : ''} serving the {cityName} area. Each provider has been reviewed for credentials, patient satisfaction, and quality of care. Browse profiles below to compare specialties, read about their approach, view Google ratings, and book an appointment.</p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      {chiros.map((c: any) => (
+        <ChiroCard slug={c.slug} doctorName={c.doctorName} credentials={c.credentials}
+          practiceName={c.practiceName} city={c.city} state={c.state}
+          specialties={c.specialties} rating={c.rating} reviewCount={c.reviewCount} />
+      ))}
+    </div>
+  </div>
+</BaseLayout>

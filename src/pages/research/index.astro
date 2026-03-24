@@ -1,0 +1,20 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+const title = "Chiropractic Research & Outcomes Data | BestChiropractorUSA";
+const description = "Evidence-based chiropractic research data including outcomes by condition, treatment timelines, and effectiveness metrics.";
+---
+<BaseLayout title={title} description={description}>
+  <div class="max-w-4xl mx-auto px-4 py-10">
+    <h1 class="text-3xl font-bold text-gray-900 mb-3">Chiropractic Research & Outcomes</h1>
+    <p class="text-gray-600 mb-10">Evidence-based data to help patients and providers understand chiropractic effectiveness.</p>
+
+    <div class="space-y-6">
+      <a href="/research/outcomes-by-condition" class="block bg-white rounded-lg border border-gray-200 p-6 hover:shadow-md transition-shadow">
+        <h2 class="text-lg font-semibold text-gray-900">Outcomes by Condition</h2>
+        <p class="text-gray-600 mt-1">Which conditions respond best to chiropractic care? See average improvement rates and treatment timelines across 10 common conditions.</p>
+        <p class="text-blue-600 text-sm mt-3">View Research →</p>
+      </a>
+    </div>
+  </div>
+</BaseLayout>
