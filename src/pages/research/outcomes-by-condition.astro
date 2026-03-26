@@ -1,7 +1,8 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import conditionDetails from '../../data/condition-details.json';
-import chiropractors from '../../data/chiropractors.json';
+import allChiropractors from '../../data/chiropractors.json';
+const chiropractors = allChiropractors.filter(c => !c.hidden);
 
 const conditions = Object.entries(conditionDetails as Record<string, any>)
   .map(([slug, c]) => {

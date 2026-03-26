@@ -1,7 +1,8 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import ChiroCard from '../components/ChiroCard.astro';
-import chiropractors from '../data/chiropractors.json';
+import allChiropractors from '../data/chiropractors.json';
+const chiropractors = allChiropractors.filter(c => !c.hidden);
 
 const title = "Find the Best Chiropractor Near You | BestChiropractorUSA";
 const description = "Browse verified chiropractors across the United States. Compare ratings, specialties, and book your appointment today.";
@@ -27,7 +28,7 @@ const jsonLd = {
     </div>
 
     <section class="prose max-w-none mb-12 text-gray-700">
-      <p>BestChiropractorUSA is the trusted directory for finding licensed, verified chiropractors across the United States. Our directory features detailed profiles for over 30 chiropractors in 15+ states, each with verified credentials, office hours, patient ratings, specialties, and contact information. Whether you need relief from back pain, sciatica, migraines, or want ongoing wellness care, our listings help you compare top-rated chiropractors and book appointments with confidence.</p>
+      <p>BestChiropractorUSA is the trusted directory for finding licensed, verified chiropractors across the United States. Our directory features detailed profiles for verified chiropractors across multiple states, each with verified credentials, office hours, patient ratings, specialties, and contact information. Whether you need relief from back pain, sciatica, migraines, or want ongoing wellness care, our listings help you compare top-rated chiropractors and book appointments with confidence.</p>
 
       <h2 class="text-xl font-semibold text-gray-900 mt-8 mb-3">Why Choose a Chiropractor?</h2>
       <p>Chiropractors treat back pain, neck pain, headaches, sciatica, sports injuries, and joint dysfunction using hands-on spinal adjustments and manual therapy. Unlike medication that masks symptoms, chiropractic care addresses the root cause of pain by restoring proper spinal alignment and nervous system function. Millions of Americans choose chiropractic as a safe, drug-free alternative for both acute injuries and chronic conditions.</p>

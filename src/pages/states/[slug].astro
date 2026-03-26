@@ -1,7 +1,8 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import ChiroCard from '../../components/ChiroCard.astro';
-import chiropractors from '../../data/chiropractors.json';
+import allChiropractors from '../../data/chiropractors.json';
+const chiropractors = allChiropractors.filter(c => !c.hidden);
 
 const stateMap: Record<string, string> = {};
 chiropractors.forEach(c => { stateMap[c.fullState.toLowerCase().replace(/\s+/g, '-')] = c.fullState; });

@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
-import chiropractors from '../../data/chiropractors.json';
+import allChiropractors from '../../data/chiropractors.json';
+const chiropractors = allChiropractors.filter(c => !c.hidden);
 
 const chiros = chiropractors.filter(c => c.ghlFormId);
 
