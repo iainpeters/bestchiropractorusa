@@ -8,8 +8,9 @@ const stateMap: Record<string, string> = {};
 chiropractors.forEach(c => { stateMap[c.fullState.toLowerCase().replace(/\s+/g, '-')] = c.fullState; });
 
 export function getStaticPaths() {
+  const visible = allChiropractors.filter(c => !c.hidden);
   const states = new Map<string, any[]>();
-  for (const c of chiropractors) {
+  for (const c of visible) {
     const slug = c.fullState.toLowerCase().replace(/\s+/g, '-');
     if (!states.has(slug)) states.set(slug, []);
     states.get(slug)!.push(c);

@@ -6,7 +6,7 @@ const chiropractors = allChiropractors.filter(c => !c.hidden);
 const chiros = chiropractors.filter(c => c.ghlFormId);
 
 export function getStaticPaths() {
-  return chiropractors.filter(c => c.ghlFormId).map(c => ({
+  return allChiropractors.filter(c => !c.hidden && c.ghlFormId).map(c => ({
     params: { slug: c.slug },
     props: { chiro: c }
   }));

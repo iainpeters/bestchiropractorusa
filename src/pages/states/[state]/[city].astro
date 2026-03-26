@@ -6,7 +6,7 @@ const chiropractors = allChiropractors.filter(c => !c.hidden);
 
 export function getStaticPaths() {
   const cityMap = new Map<string, any[]>();
-  for (const c of chiropractors) {
+  for (const c of allChiropractors.filter(c => !c.hidden)) {
     const stateSlug = c.fullState.toLowerCase().replace(/\s+/g, '-');
     const citySlug = c.city.toLowerCase().replace(/\s+/g, '-').replace(/\./g, '');
     const key = `${stateSlug}/${citySlug}`;
